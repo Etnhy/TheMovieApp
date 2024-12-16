@@ -11,7 +11,7 @@ import Combine
 class HomeController: BaseViewController {
 
     var viewModel: HomeViewModel
-
+    var coordinator: HomeCoordinator
     private lazy var homeView: HomeView = {
         let view = HomeView()
         view.setupTableView(self, self)
@@ -23,13 +23,15 @@ class HomeController: BaseViewController {
 
     init(viewModel: HomeViewModel, coordinator: HomeCoordinator) {
         self.viewModel = viewModel
-        super.init(coordinator: coordinator)
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+
     override func loadView() {
         super.loadView()
         self.view = homeView
@@ -37,20 +39,11 @@ class HomeController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupBindings()
         viewModel.fetchMovies(for: 1)
+        makeRightButton(#selector(showSortedMenu))
     }
-    
-    private func setupUI() {
-//        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseID)
-//        activityIndicator.hidesWhenStopped = true
-//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 50))
-//        footerView.addSubview(activityIndicator)
-//        activityIndicator.center = footerView.center
-//        tableView.tableFooterView = footerView
 
-    }
     
     private func setupBindings() {
         viewModel.$movies
@@ -73,6 +66,12 @@ class HomeController: BaseViewController {
 
     }
     
+    @objc private func showSortedMenu() {
+        coordinator.showActionSheet(selected: viewModel.selectedSorting) {[weak self] sort in
+            guard let self else { return }
+            viewModel.selectedSorting = sort
+        }
+    }
 
     
 }

@@ -9,31 +9,18 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    var coordinator: Coordinator
-    init(coordinator: Coordinator) {
-        self.coordinator = coordinator
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        // Do any additional setup after loading the view.
+
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func makeRightButton(_ target: Selector) {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "arrow.up.and.down.text.horizontal"), for: .normal)
+        let barButtonItem = UIBarButtonItem(customView: button)
+        navigationItem.rightBarButtonItem = barButtonItem
+        button.addTarget(self, action: target, for: .touchUpInside)
     }
-    */
-
 }
