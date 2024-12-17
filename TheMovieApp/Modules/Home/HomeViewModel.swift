@@ -25,13 +25,20 @@ final class HomeViewModel {
     private var currentPage = 1
     private var totalPages = Int.max
     
+    @Published var genres: [Genre] = []
+
     @Published var movies: [Movie] = []
+    private var allMovies: [Movie] = []
     @Published var isLoading: Bool = false
     
     @Published var selectedSorting: SortedByState = .popularity
+    var cacheService = ImageCache()
     
     init(movieService: NetworkService = NetworkService()) {
         self.movieService = movieService
+        
+        binding()
+        fetchGenres()
     }
 
     func fetchMovies(for page: Int) {
@@ -48,25 +55,48 @@ final class HomeViewModel {
             } receiveValue: { [weak self] newMovies in
                 guard let self else { return }
                 self.movies.append(contentsOf: newMovies)
-                print(self.movies.map(\.releaseDate))
+                self.allMovies.append(contentsOf: newMovies)
+
                 self.currentPage = page
                 self.isLoading = false
             }
             .store(in: &cancellables)
     }
     
+    func fetchGenres() {
+        movieService.fetchAllGenres()
+            .sink { [weak self] completion in
+                if case .failure(let error) = completion {
+                    print("Error loading movies: \(error)")
+                }
+            } receiveValue: { [weak self] newMovies in
+                guard let self else { return }
+                self.genres.append(contentsOf: newMovies)
+            }
+            .store(in: &cancellables)
+    }
+
+    
     func fetchNextPage() {
         fetchMovies(for: currentPage + 1)
     }
 
     
+    private func binding() {
+        $selectedSorting
+            .sink { sorting in
+                self.sortedBy()
+                
+            }
+            .store(in: &cancellables)
+    }
     private func sortedBy() {
         switch selectedSorting {
         case .popularity:
             self.movies.sort(by: { $0.popularity > $1.popularity })
 
         case .name:
-            self.movies.sort(by: { $0.title > $1.title })
+            movies.sort { $0.title.lowercased() < $1.title.lowercased() }
 
         case .releaseDate:
             self.movies.sort(by: { lhs, rhs in
@@ -79,5 +109,17 @@ final class HomeViewModel {
                 return lhsDate != nil
             })
         }
+    }
+    
+    func filterMovies(by query: String) {
+        if query.isEmpty {
+            movies = allMovies
+        } else {
+            movies = allMovies.filter { $0.title.lowercased().contains(query.lowercased()) }
+        }
+    }
+    
+    func resetMovies() {
+        movies = allMovies
     }
 }

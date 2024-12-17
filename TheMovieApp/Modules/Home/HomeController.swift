@@ -11,25 +11,28 @@ import Combine
 class HomeController: BaseViewController {
 
     var viewModel: HomeViewModel
-
+    var coordinator: HomeCoordinator
+    
     private lazy var homeView: HomeView = {
         let view = HomeView()
         view.setupTableView(self, self)
+        view.setupSearchbar(self)
         return view
     }()
     
     private var cancellables = Set<AnyCancellable>()
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
     init(viewModel: HomeViewModel, coordinator: HomeCoordinator) {
         self.viewModel = viewModel
-        super.init(coordinator: coordinator)
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+
     override func loadView() {
         super.loadView()
         self.view = homeView
@@ -37,20 +40,11 @@ class HomeController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupBindings()
         viewModel.fetchMovies(for: 1)
+        makeRightButton(#selector(showSortedMenu))
     }
-    
-    private func setupUI() {
-//        tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseID)
-//        activityIndicator.hidesWhenStopped = true
-//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 50))
-//        footerView.addSubview(activityIndicator)
-//        activityIndicator.center = footerView.center
-//        tableView.tableFooterView = footerView
 
-    }
     
     private func setupBindings() {
         viewModel.$movies
@@ -63,20 +57,26 @@ class HomeController: BaseViewController {
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                if isLoading {
-                    self?.activityIndicator.startAnimating()
-                } else {
-                    self?.activityIndicator.stopAnimating()
-                }
+//                if isLoading {
+//                    self?.homeView.startLoad()
+//                } else {
+//                    self?.homeView.stopLoad()
+//                }
             }
             .store(in: &cancellables)
-
     }
     
+    @objc private func showSortedMenu() {
+        coordinator.showActionSheet(selected: viewModel.selectedSorting) {[weak self] sort in
+            guard let self else { return }
+            viewModel.selectedSorting = sort
+        }
+    }
 
     
 }
 
+//MARK: - UITableViewDataSource, UITableViewDelegate
 extension HomeController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.movies.count
@@ -86,8 +86,12 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseID, for: indexPath) as? HomeTableViewCell else {return UITableViewCell()}
         
         let movie = viewModel.movies[indexPath.row]
-        cell.textLabel?.text = "\(movie.title) - Popularity: \(movie.popularity)"
+        cell.setupCell(with: movie, cache: viewModel.cacheService, genres: viewModel.genres)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 250
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -97,7 +101,18 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
         
         if offsetY > contentHeight - frameHeight * 2 {
             viewModel.fetchNextPage()
+            viewModel.resetMovies()
+            homeView.cleanSearchbar()
+            resignAndCloseKeyboard()
         }
     }
     
+}
+
+//MARK: - UISearchBarDelegate
+extension HomeController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterMovies(by: searchText)
+    }
 }
