@@ -16,9 +16,15 @@ class HomeView: BaseView {
         return tableView
     }()
 
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let act = UIActivityIndicatorView(style: .medium)
+        act.backgroundColor = .black.withAlphaComponent(0.75)
+        return act
+    }()
+
 
     override func setupViews() {
-        [tableView].forEach(addSubview(_:))
+        [tableView,activityIndicator].forEach(addSubview(_:))
     }
     
     override func setupConstraints() {
@@ -26,6 +32,18 @@ class HomeView: BaseView {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
         }
+        activityIndicator.snp.remakeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func startLoad() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoad() {
+        activityIndicator.stopAnimating()
+
     }
     
     func setupTableView(_ dataSource: UITableViewDataSource,_ delegate: UITableViewDelegate) {
@@ -38,5 +56,7 @@ class HomeView: BaseView {
             self.tableView.reloadData()
         }
     }
+    
+    
     
 }

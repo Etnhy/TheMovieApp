@@ -12,6 +12,7 @@ class HomeController: BaseViewController {
 
     var viewModel: HomeViewModel
     var coordinator: HomeCoordinator
+    
     private lazy var homeView: HomeView = {
         let view = HomeView()
         view.setupTableView(self, self)
@@ -19,7 +20,6 @@ class HomeController: BaseViewController {
     }()
     
     private var cancellables = Set<AnyCancellable>()
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
 
     init(viewModel: HomeViewModel, coordinator: HomeCoordinator) {
         self.viewModel = viewModel
@@ -56,14 +56,13 @@ class HomeController: BaseViewController {
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-                if isLoading {
-                    self?.activityIndicator.startAnimating()
-                } else {
-                    self?.activityIndicator.stopAnimating()
-                }
+//                if isLoading {
+//                    self?.homeView.startLoad()
+//                } else {
+//                    self?.homeView.stopLoad()
+//                }
             }
             .store(in: &cancellables)
-
     }
     
     @objc private func showSortedMenu() {
@@ -85,8 +84,12 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseID, for: indexPath) as? HomeTableViewCell else {return UITableViewCell()}
         
         let movie = viewModel.movies[indexPath.row]
-        cell.textLabel?.text = "\(movie.title) - Popularity: \(movie.popularity)"
+        cell.setupCell(with: movie, cache: viewModel.cacheService, genres: viewModel.genres)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 250
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

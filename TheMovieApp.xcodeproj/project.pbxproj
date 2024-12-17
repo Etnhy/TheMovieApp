@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A1ED5B72D1192220076ABBF /* DataCache in Frameworks */ = {isa = PBXBuildFile; productRef = 7A1ED5B62D1192220076ABBF /* DataCache */; };
 		7ADBF5AF2D10408700A7E966 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7ADBF5AE2D10408700A7E966 /* SnapKit */; };
 		7ADBF5B22D1040B800A7E966 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7ADBF5B12D1040B800A7E966 /* Alamofire */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 			files = (
 				7ADBF5AF2D10408700A7E966 /* SnapKit in Frameworks */,
 				7ADBF5B22D1040B800A7E966 /* Alamofire in Frameworks */,
+				7A1ED5B72D1192220076ABBF /* DataCache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				7ADBF5AE2D10408700A7E966 /* SnapKit */,
 				7ADBF5B12D1040B800A7E966 /* Alamofire */,
+				7A1ED5B62D1192220076ABBF /* DataCache */,
 			);
 			productName = TheMovieApp;
 			productReference = 7ADBF5952D10400C00A7E966 /* Movies.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7ADBF5B02D1040B800A7E966 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7ADBF5962D10400C00A7E966 /* Products */;
@@ -360,6 +364,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huynguyencong/DataCache.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
 		7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -379,6 +391,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7A1ED5B62D1192220076ABBF /* DataCache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */;
+			productName = DataCache;
+		};
 		7ADBF5AE2D10408700A7E966 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */;

@@ -1,5 +1,5 @@
 {
-  "originHash" : "98dc23524d65931ffff8029c2011c499d95c96c7898b705fa5eae45a029eb28c",
+  "originHash" : "91855191b2feffd634e137e8f75e875238cfdef1dcec87c23e71bfa94682a25a",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
         "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "datacache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/huynguyencong/DataCache.git",
+      "state" : {
+        "revision" : "cdef39b1f7f539ff722e7954746b2876ef12178c",
+        "version" : "1.7.0"
       }
     },
     {

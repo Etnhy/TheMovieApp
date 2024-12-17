@@ -12,14 +12,17 @@ import Alamofire
 
 protocol NetworkServiceProtocol {
     func fetchPopular(page: Int) -> AnyPublisher<MovieResponse, Error>
+    func fetchAllGenres() -> AnyPublisher<[Genre], Error>
 
 }
 
 enum Endpoint: String {
     case movie = "trending/movie/day"
+    case genre = "genre/movie/list?language=en"
 }
 
 final class NetworkService: NetworkServiceProtocol {
+
     
     private let baseURL = "https://api.themoviedb.org/3/"
     private let headers: HTTPHeaders = [
@@ -38,6 +41,17 @@ final class NetworkService: NetworkServiceProtocol {
             .eraseToAnyPublisher()
     }
 
+    func fetchAllGenres() -> AnyPublisher<[Genre], Error> {
+        let url = "\(baseURL)\(Endpoint.genre.rawValue)"
+        return AF.request(url, method: .get, headers: headers)
+            .validate()
+            .publishDecodable(type: Genres.self)
+            .value()
+            .mapError { $0 as Error }
+            .map(\.genres)
+            .eraseToAnyPublisher()
+    }
+    
     
 }
 
