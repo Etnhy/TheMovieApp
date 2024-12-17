@@ -28,6 +28,7 @@ final class HomeViewModel {
     @Published var genres: [Genre] = []
 
     @Published var movies: [Movie] = []
+    private var allMovies: [Movie] = []
     @Published var isLoading: Bool = false
     
     @Published var selectedSorting: SortedByState = .popularity
@@ -54,6 +55,8 @@ final class HomeViewModel {
             } receiveValue: { [weak self] newMovies in
                 guard let self else { return }
                 self.movies.append(contentsOf: newMovies)
+                self.allMovies.append(contentsOf: newMovies)
+
                 self.currentPage = page
                 self.isLoading = false
             }
@@ -106,5 +109,17 @@ final class HomeViewModel {
                 return lhsDate != nil
             })
         }
+    }
+    
+    func filterMovies(by query: String) {
+        if query.isEmpty {
+            movies = allMovies
+        } else {
+            movies = allMovies.filter { $0.title.lowercased().contains(query.lowercased()) }
+        }
+    }
+    
+    func resetMovies() {
+        movies = allMovies
     }
 }

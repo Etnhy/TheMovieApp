@@ -12,10 +12,22 @@ class HomeTableViewCell: UITableViewCell {
     
     static let reuseID = String(describing: HomeTableViewCell.self)
     
+    private lazy var container: UIView = {
+        var container = UIView()
+        container.layer.shadowColor = UIColor.black.cgColor
+        container.layer.shadowOpacity = 1
+        container.layer.shadowOffset = CGSize(width: 0, height: 4)
+        container.layer.shadowRadius = 6
+        container.layer.masksToBounds = false
+
+        return container
+    }()
+    
     private lazy var cellImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 6
         return imageView
     }()
     
@@ -40,12 +52,18 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        [cellImageView,title,genre,rating].forEach(addSubview(_:))
+        addSubview(container)
+        [cellImageView,title,genre,rating].forEach(container.addSubview(_:))
         
         setupCons()
     }
     
     private func setupCons() {
+        container.snp.remakeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.top.bottom.equalToSuperview().inset(8)
+        }
+        
         cellImageView.snp.remakeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -54,7 +72,9 @@ class HomeTableViewCell: UITableViewCell {
         }
         genre.snp.remakeConstraints { make in
             make.leading.equalToSuperview().offset(20)
-            make.bottom.equalToSuperview().inset(50)
+            make.width.equalToSuperview().dividedBy(2)
+            make.height.equalToSuperview().dividedBy(2.5)
+            make.bottom.equalToSuperview().inset(8)
         }
         rating.snp.remakeConstraints { make in
             make.trailing.equalToSuperview().inset(20)

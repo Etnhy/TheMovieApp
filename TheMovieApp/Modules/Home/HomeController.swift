@@ -16,6 +16,7 @@ class HomeController: BaseViewController {
     private lazy var homeView: HomeView = {
         let view = HomeView()
         view.setupTableView(self, self)
+        view.setupSearchbar(self)
         return view
     }()
     
@@ -75,6 +76,7 @@ class HomeController: BaseViewController {
     
 }
 
+//MARK: - UITableViewDataSource, UITableViewDelegate
 extension HomeController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.movies.count
@@ -99,7 +101,18 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
         
         if offsetY > contentHeight - frameHeight * 2 {
             viewModel.fetchNextPage()
+            viewModel.resetMovies()
+            homeView.cleanSearchbar()
+            resignAndCloseKeyboard()
         }
     }
     
+}
+
+//MARK: - UISearchBarDelegate
+extension HomeController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterMovies(by: searchText)
+    }
 }

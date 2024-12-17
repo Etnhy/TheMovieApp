@@ -23,4 +23,9 @@ class BaseViewController: UIViewController {
         navigationItem.rightBarButtonItem = barButtonItem
         button.addTarget(self, action: target, for: .touchUpInside)
     }
+    
+    func resignAndCloseKeyboard() {
+        resignFirstResponder()
+        view.endEditing(true)
+    }
 }
