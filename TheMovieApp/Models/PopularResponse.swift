@@ -27,7 +27,6 @@ struct Movie: Codable {
     let overview: String
     let posterPath: String?
     let backdropPath: String?
-    let mediaType: String
     let adult: Bool
     let originalLanguage: String
     let genreIDs: [Int]
@@ -42,7 +41,6 @@ struct Movie: Codable {
         case originalTitle = "original_title"
         case posterPath = "poster_path"
         case backdropPath = "backdrop_path"
-        case mediaType = "media_type"
         case adult
         case originalLanguage = "original_language"
         case genreIDs = "genre_ids"

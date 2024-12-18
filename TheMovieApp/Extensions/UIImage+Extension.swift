@@ -33,7 +33,6 @@ extension UIImageView {
         size: ImageSizeType = .small
     ) -> AnyCancellable? {
         
-
         if let cachedImage = cache.getImage(imageId: imageId, for: size) {
             self.image = cachedImage
             return nil
@@ -45,7 +44,6 @@ extension UIImageView {
         activityIndicator.hidesWhenStopped = true
         self.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-
         return AF.request("https://image.tmdb.org/t/p/original\(urlString)")
             .publishData()
             .tryMap { response in

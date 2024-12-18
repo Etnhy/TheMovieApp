@@ -45,6 +45,7 @@ class HomeTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +87,8 @@ class HomeTableViewCell: UITableViewCell {
         title.text = movie.title + ", " + (movie.releaseDate ?? "")
         rating.text = "Rating: \(movie.voteAverage)"
         setupGenres(with: movie.genreIDs, genres: genres)
-        if let poster = movie.backdropPath {
+        if let poster = movie.posterPath {
+            print(poster)
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 
