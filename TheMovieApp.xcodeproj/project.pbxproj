@@ -6,8 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7A1ED5B72D1192220076ABBF /* DataCache in Frameworks */ = {isa = PBXBuildFile; productRef = 7A1ED5B62D1192220076ABBF /* DataCache */; };
+		7ADBF5AF2D10408700A7E966 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7ADBF5AE2D10408700A7E966 /* SnapKit */; };
+		7ADBF5B22D1040B800A7E966 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7ADBF5B12D1040B800A7E966 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		7ADBF5952D10400C00A7E966 /* TheMovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheMovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ADBF5952D10400C00A7E966 /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ADBF5AF2D10408700A7E966 /* SnapKit in Frameworks */,
+				7ADBF5B22D1040B800A7E966 /* Alamofire in Frameworks */,
+				7A1ED5B72D1192220076ABBF /* DataCache in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +62,7 @@
 		7ADBF5962D10400C00A7E966 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7ADBF5952D10400C00A7E966 /* TheMovieApp.app */,
+				7ADBF5952D10400C00A7E966 /* Movies.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,9 +87,12 @@
 			);
 			name = TheMovieApp;
 			packageProductDependencies = (
+				7ADBF5AE2D10408700A7E966 /* SnapKit */,
+				7ADBF5B12D1040B800A7E966 /* Alamofire */,
+				7A1ED5B62D1192220076ABBF /* DataCache */,
 			);
 			productName = TheMovieApp;
-			productReference = 7ADBF5952D10400C00A7E966 /* TheMovieApp.app */;
+			productReference = 7ADBF5952D10400C00A7E966 /* Movies.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,6 +119,11 @@
 			);
 			mainGroup = 7ADBF58C2D10400C00A7E966;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				7ADBF5B02D1040B800A7E966 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7ADBF5962D10400C00A7E966 /* Products */;
 			projectDirPath = "";
@@ -153,16 +170,21 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mahlena.TheMovieApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Movies;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -181,16 +203,21 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mahlena.TheMovieApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Movies;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -335,6 +362,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/huynguyencong/DataCache.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
+		7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		7ADBF5B02D1040B800A7E966 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7A1ED5B62D1192220076ABBF /* DataCache */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7A1ED5B52D1192220076ABBF /* XCRemoteSwiftPackageReference "DataCache" */;
+			productName = DataCache;
+		};
+		7ADBF5AE2D10408700A7E966 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7ADBF5AD2D10408700A7E966 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		7ADBF5B12D1040B800A7E966 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7ADBF5B02D1040B800A7E966 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7ADBF58D2D10400C00A7E966 /* Project object */;
 }
