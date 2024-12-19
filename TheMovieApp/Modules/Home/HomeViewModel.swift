@@ -74,7 +74,7 @@ final class HomeViewModel {
                 }
             } receiveValue: { [weak self] newMovies in
                 guard let self else { return }
-                self.genres.append(contentsOf: newMovies)
+                self.genres.append(contentsOf: newMovies.genres)
             }
             .store(in: &cancellables)
     }

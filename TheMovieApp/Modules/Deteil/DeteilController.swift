@@ -10,13 +10,15 @@ import UIKit
 class DeteilController: BaseViewController {
 
     var viewModel: DeteilViewModel
-
+    var coordinator: HomeCoordinator
+    
     private lazy var deteilView = DeteilView()
     
     
     
-    init(movie: DeteilViewViewModel) {
+    init(movie: DeteilViewViewModel, coordinator: HomeCoordinator) {
         self.viewModel = DeteilViewModel(movie: movie)
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         setTitle(movie.movie.title)
         deteilView.setupView(model: movie.movie,vote: movie.voteAverage ?? 0)
@@ -32,9 +34,15 @@ class DeteilController: BaseViewController {
         super.loadView()
         self.view = deteilView
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        deteilView.trailerButtonAction = { [weak self] in
+
+        }
+        
     }
 
     

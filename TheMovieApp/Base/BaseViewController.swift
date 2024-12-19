@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 class BaseViewController: UIViewController {
-
+    private let networkStatus = NetworkConnectionService.shared
+    
+    private var networkCancellable: AnyCancellable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,5 +34,20 @@ class BaseViewController: UIViewController {
     
     func setTitle(_ title: String) {
         navigationItem.title = title
+    }
+    
+    private func bindings() {
+        networkCancellable = networkStatus.$isConnected
+            .filter({!$0})
+            .sink { [weak self] status in
+                guard let self else { return }
+                self.showAlert(title: "Error", message: "No internet connection")
+            }
+    }
+    
+    @objc func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
