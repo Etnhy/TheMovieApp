@@ -19,7 +19,7 @@ class DeteilController: BaseViewController {
         self.viewModel = DeteilViewModel(movie: movie)
         super.init(nibName: nil, bundle: nil)
         setTitle(movie.movie.title)
-        deteilView.setupView(model: movie.movie)
+        deteilView.setupView(model: movie.movie,vote: movie.voteAverage ?? 0)
         deteilView.loadImage(movie.imagePath, cache: movie.cacheServise)
         print(movie.movie)
     }

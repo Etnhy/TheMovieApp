@@ -57,13 +57,14 @@ final class DeteilView: BaseView {
         
     }
     
-    func setupView(model: MovieDetailResponse) {
+    func setupView(model: MovieDetailResponse, vote: Double) {
         nameLabel.text = model.title
         countryYear.text = self.setupCountries(countreis: model.originCountry ?? []) + " " + (model.releaseDate ?? "")
         genreLabel.text = model.genres.map {$0.name}.joined(separator: ", ")
-        ratingLabel.text = "\(model.voteAverage ?? 0)"
+        ratingLabel.text = "Rating: \(vote)"
         textLabel.text = model.overview ?? ""
         trailerButton.layer.opacity = model.video ? 1 : 0
+        
     }
     
     func loadImage(_ urlString: String?, cache: ImageCache) {

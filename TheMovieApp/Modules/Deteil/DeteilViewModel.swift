@@ -12,6 +12,7 @@ struct DeteilViewViewModel {
     var genres: [Genre] = []
     var cacheServise: ImageCache
     var imagePath: String?
+    var voteAverage: Double?
 }
 
 

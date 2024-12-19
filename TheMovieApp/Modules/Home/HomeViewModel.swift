@@ -62,8 +62,8 @@ final class HomeViewModel {
             .store(in: &cancellables)
     }
     
-    private func goToDeteil(response: MovieDetailResponse, imagePath: String?) -> DeteilViewViewModel {
-       DeteilViewViewModel(movie: response, genres: genres, cacheServise: cacheService, imagePath: imagePath)
+    private func goToDeteil(voteAverage: Double?,response: MovieDetailResponse, imagePath: String?) -> DeteilViewViewModel {
+        DeteilViewViewModel(movie: response, genres: genres, cacheServise: cacheService, imagePath: imagePath, voteAverage: voteAverage)
     }
     
     func fetchGenres() {
@@ -79,7 +79,7 @@ final class HomeViewModel {
             .store(in: &cancellables)
     }
     
-    func getDeteil(posterPath: String?,for id: Int, completion: @escaping (DeteilViewViewModel) -> Void) {
+    func getDeteil(voteAverage: Double?,posterPath: String?,for id: Int, completion: @escaping (DeteilViewViewModel) -> Void) {
         self.isLoading = true
         movieService.getDeteilMoview(id: id)
             .sink { [weak self] completion in
@@ -88,7 +88,7 @@ final class HomeViewModel {
                     print("Error loading movies: \(error)")
                 }
             } receiveValue: { response in
-                let model = self.goToDeteil(response: response, imagePath: posterPath)
+                let model = self.goToDeteil(voteAverage: voteAverage, response: response, imagePath: posterPath)
                 completion(model)
             }
             .store(in: &cancellables)

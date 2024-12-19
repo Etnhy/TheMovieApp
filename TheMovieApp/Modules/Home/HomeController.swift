@@ -98,7 +98,7 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movieId = viewModel.movies[indexPath.row]
         print(movieId)
-        viewModel.getDeteil(posterPath: movieId.posterPath, for: movieId.id) {[weak self] moviewResponse in
+        viewModel.getDeteil(voteAverage: movieId.voteAverage, posterPath: movieId.posterPath, for: movieId.id) {[weak self] moviewResponse in
             guard let self else {return}
             coordinator.showDeteil(movie: moviewResponse)
         }
