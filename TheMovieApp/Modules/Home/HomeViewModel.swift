@@ -42,8 +42,8 @@ final class HomeViewModel {
     }
 
     func fetchMovies(for page: Int) {
-        guard !isLoading, page <= totalPages else { return }
-        isLoading = true
+        guard /*!isLoading,*/ page <= totalPages else { return }
+//        isLoading = true
         
         movieService.fetchPopular(page: page)
             .map(\.results)
@@ -56,16 +56,19 @@ final class HomeViewModel {
                 guard let self else { return }
                 self.movies.append(contentsOf: newMovies)
                 self.allMovies.append(contentsOf: newMovies)
-
                 self.currentPage = page
-                self.isLoading = false
+//                self.isLoading = false
             }
             .store(in: &cancellables)
     }
     
+    private func goToDeteil(response: MovieDetailResponse, imagePath: String?) -> DeteilViewViewModel {
+       DeteilViewViewModel(movie: response, genres: genres, cacheServise: cacheService, imagePath: imagePath)
+    }
+    
     func fetchGenres() {
         movieService.fetchAllGenres()
-            .sink { [weak self] completion in
+            .sink {  completion in
                 if case .failure(let error) = completion {
                     print("Error loading movies: \(error)")
                 }
@@ -75,7 +78,22 @@ final class HomeViewModel {
             }
             .store(in: &cancellables)
     }
+    
+    func getDeteil(posterPath: String?,for id: Int, completion: @escaping (DeteilViewViewModel) -> Void) {
+        self.isLoading = true
+        movieService.getDeteilMoview(id: id)
+            .sink { [weak self] completion in
+                self?.isLoading = false
+                if case .failure(let error) = completion {
+                    print("Error loading movies: \(error)")
+                }
+            } receiveValue: { response in
+                let model = self.goToDeteil(response: response, imagePath: posterPath)
+                completion(model)
+            }
+            .store(in: &cancellables)
 
+    }
     
     func fetchNextPage() {
         fetchMovies(for: currentPage + 1)
@@ -86,10 +104,10 @@ final class HomeViewModel {
         $selectedSorting
             .sink { sorting in
                 self.sortedBy()
-                
             }
             .store(in: &cancellables)
     }
+    
     private func sortedBy() {
         switch selectedSorting {
         case .popularity:

@@ -41,6 +41,7 @@ class HomeController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBindings()
+        setTitle("Popular Movies")
         viewModel.fetchMovies(for: 1)
         makeRightButton(#selector(showSortedMenu))
     }
@@ -57,11 +58,11 @@ class HomeController: BaseViewController {
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
-//                if isLoading {
-//                    self?.homeView.startLoad()
-//                } else {
-//                    self?.homeView.stopLoad()
-//                }
+                if isLoading {
+                    self?.homeView.startLoad()
+                } else {
+                    self?.homeView.stopLoad()
+                }
             }
             .store(in: &cancellables)
     }
@@ -92,6 +93,15 @@ extension HomeController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieId = viewModel.movies[indexPath.row]
+        print(movieId)
+        viewModel.getDeteil(posterPath: movieId.posterPath, for: movieId.id) {[weak self] moviewResponse in
+            guard let self else {return}
+            coordinator.showDeteil(movie: moviewResponse)
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

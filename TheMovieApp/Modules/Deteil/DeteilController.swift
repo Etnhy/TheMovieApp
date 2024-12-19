@@ -7,8 +7,31 @@
 
 import UIKit
 
-class DeteilController: UIViewController {
+class DeteilController: BaseViewController {
 
+    var viewModel: DeteilViewModel
+
+    private lazy var deteilView = DeteilView()
+    
+    
+    
+    init(movie: DeteilViewViewModel) {
+        self.viewModel = DeteilViewModel(movie: movie)
+        super.init(nibName: nil, bundle: nil)
+        setTitle(movie.movie.title)
+        deteilView.setupView(model: movie.movie)
+        deteilView.loadImage(movie.imagePath, cache: movie.cacheServise)
+        print(movie.movie)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        super.loadView()
+        self.view = deteilView
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

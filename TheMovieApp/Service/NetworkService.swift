@@ -13,12 +13,13 @@ import Alamofire
 protocol NetworkServiceProtocol {
     func fetchPopular(page: Int) -> AnyPublisher<MovieResponse, Error>
     func fetchAllGenres() -> AnyPublisher<[Genre], Error>
-
+    func getDeteilMoview(id: Int) -> AnyPublisher<MovieDetailResponse, Error>
 }
 
 enum Endpoint: String {
-    case movie = "trending/movie/day"
+    case movie = "/movie/popular"
     case genre = "genre/movie/list?language=en"
+    case deteilMovie = "movie/"
 }
 
 final class NetworkService: NetworkServiceProtocol {
@@ -51,6 +52,18 @@ final class NetworkService: NetworkServiceProtocol {
             .map(\.genres)
             .eraseToAnyPublisher()
     }
+    
+    func getDeteilMoview(id: Int) -> AnyPublisher<MovieDetailResponse, any Error> {
+        let url = "\(baseURL)\(Endpoint.deteilMovie.rawValue)\(id)?"
+        return AF.request(url, method: .get, headers: headers)
+            .validate()
+            .publishDecodable(type: MovieDetailResponse.self)
+            .value()
+            .mapError {$0 as Error}
+            .eraseToAnyPublisher()
+    }
+    
+
     
     
 }

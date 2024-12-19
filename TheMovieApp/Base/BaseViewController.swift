@@ -28,4 +28,8 @@ class BaseViewController: UIViewController {
         resignFirstResponder()
         view.endEditing(true)
     }
+    
+    func setTitle(_ title: String) {
+        navigationItem.title = title
+    }
 }
