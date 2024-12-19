@@ -14,7 +14,7 @@ final class NetworkConnectionService {
     private let queue = DispatchQueue.global()
     private let monitor: NWPathMonitor
     
-    private(set) var isConnected = false
+    @Published private(set) var isConnected = false
     private(set) var isExpensive = false
     
     

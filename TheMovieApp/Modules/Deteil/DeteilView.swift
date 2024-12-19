@@ -36,6 +36,10 @@ final class DeteilView: BaseView {
         button.layer.cornerRadius = 10
         return button
     }()
+    
+    var trailerButtonAction: (() -> Void)?
+    
+    
     private let ratingLabel = UILabel(fontSize: 16, foregroundColor: .black)
     
     private let textLabel = UILabel(fontSize: 16, foregroundColor: .black)
@@ -46,6 +50,12 @@ final class DeteilView: BaseView {
         addSubview(scrollContainer)
         setupStack()
         textLabel.textAlignment = .center
+        
+        trailerButton.addAction(
+            UIAction { [weak self] _ in
+                self?.trailerButtonAction?()
+            },
+            for: .touchUpInside)
     }
     
     override func setupConstraints() {

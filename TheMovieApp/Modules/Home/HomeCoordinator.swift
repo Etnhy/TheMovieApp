@@ -25,9 +25,17 @@ final class HomeCoordinator: Coordinator {
     }
     
     func showDeteil(movie: DeteilViewViewModel) {
-        let deteil =  DeteilController(movie: movie)
+        let deteil =  DeteilController(movie: movie, coordinator: self)
         navigationController.pushViewController(deteil, animated: true)
     }
+    func openPlayer(url: String) {
+        let player = PlayerController(trailerurl: url)
+        
+        DispatchQueue.main.async {
+            self.navigationController.present(player, animated: true)
+        }
+    }
+    
     
     func showActionSheet(selected: SortedByState,_ compeltion: @escaping (SortedByState) -> Void) {
         let sheet = UIAlertController(title: "", message: "sorted by", preferredStyle: .actionSheet)
